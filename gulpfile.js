@@ -4,7 +4,7 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
-var notifier = require('node-notifier');
+//var notifier = require('node-notifier');
 var server = require('gulp-server-livereload');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
@@ -41,11 +41,14 @@ var bundler = watchify(browserify({
   packageCache: {},
   fullPaths: true
 }));
+var handleErrors = require('./util/handleErrors');
+
+
 
 function bundle() {
   return bundler
     .bundle()
-    .on('error', notify)
+    .on('error', handleErrors)
     .pipe(source('main.js'))
     .pipe(gulp.dest('./'))
 }
